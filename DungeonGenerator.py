@@ -1,17 +1,17 @@
 import random
 
 legend = {".": {"name": "floor",
-                "prob": 0.1},
+                "prob": None},
           "b": {"name": "bush",
                 "prob": 0.02},
           "#": {"name": "rock",
-                "prob": 0.01},              
+                "prob": 0.6},              
           "d": {"name": "door",
                 "prob": None},
           "<": {"name": "stair down",
-                "prob": None},
+                "prob": 0.03},
           ">": {"name": "stair up",
-                "prob": None}
+                "prob": 0.03}
          }
 
 rooms = []
@@ -21,9 +21,14 @@ maxlines = 18
 maxchars = 70
 maxrooms = 4
 maxstairs = 4
+maxrocks = 30
 room_nr = 0
 stair_nr = 0
-stair_prob = 0.01
+rock_nr = 0
+stairdown_prob = legend["<"]["prob"]
+stairup_prob = legend[">"]["prob"]
+bush_prob = legend["b"]["prob"]
+rock_prob = legend["#"]["prob"]
 
 for y, line in enumerate(range(maxlines)):
     l = []
@@ -87,15 +92,19 @@ for r in rooms:
                 if ft == 1:
                     ft = 0
                     d[y][x] = "<"
-                elif random.random() < stair_prob and stair_nr < maxstairs:
+                elif random.random() < stairdown_prob and stair_nr < maxstairs:
                     stair_nr += 1
                     d[y][x] = "<"
                 elif ft == 1:
                     ft = 0
                     d[y][x] = ">"
-                elif random.random() < stair_prob and stair_nr < maxstairs:
+                elif random.random() < stairup_prob and stair_nr < maxstairs:
                     stair_nr += 1
                     d[y][x] = ">"
+                elif random.random() < rock_prob:
+                    if rock_nr < maxrocks and y > y1+1 and y < y1+ h-2 and x > x1+1 and x < x1+b-2:
+                        rock_nr += 1
+                        d[y][x] = "#"
                  
 
     
